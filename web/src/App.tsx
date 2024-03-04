@@ -1,8 +1,9 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Table, Select } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 import './App.css';
+
+const { Option } = Select;
 
 interface Todo {
   userId: number;
@@ -11,117 +12,82 @@ interface Todo {
   completed: boolean;
 }
 
-interface AppState {
-  dataSource: Todo[];
-  loading: boolean;
-  hasMore: boolean;
-  page: number;
-  filter: 'all' | 'completed' | 'uncompleted';
-}
+function App() {
+  const [dataSource, setDataSource] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [offset, setOffset] = useState<number>(0);
 
-const { Option } = Select;
+  useEffect(() => {
+    fetchData();
+  }, [pageSize, offset]);
 
-class App extends Component<{}, AppState> {
-  constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      dataSource: [],
-      loading: true,
-      hasMore: true,
-      page: 1,
-      filter: 'all',
-    };
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData = async () => {
-    const { page, dataSource } = this.state;
+  const fetchData = async () => {
     try {
-      const response = await axios.get(`https://jsonplaceholder.typicode.com/todos`, {
-        params: {
-          _page: page,
-          _limit: 40
-        }
-      });
-      const data: Todo[] = response.data;
-      if (data.length === 0) {
-        this.setState({ hasMore: false, loading: false });
-      } else {
-        this.setState({
-          dataSource: [...dataSource, ...data],
-          page: page + 1,
-          loading: false
-        });
-      }
+      setLoading(true);
+      const response = await axios.get<Todo[]>(`https://jsonplaceholder.typicode.com/todos?_start=${offset}&_limit=${pageSize}`);
+      setDataSource(response.data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
 
-  handleFilterChange = (value: AppState['filter']) => {
-    this.setState({ filter: value });
+  const handleChangePageSize = (value: number) => {
+    setPageSize(value);
+    setOffset(0);
   };
 
-  render() {
-    const { dataSource, loading, hasMore, filter } = this.state;
+  const handleChangePage = (page: number) => {
+    setOffset((page - 1) * pageSize);
+  };
 
-    const filteredDataSource = dataSource.filter(todo => {
-      if (filter === 'completed') {
-        return todo.completed;
-      } else if (filter === 'uncompleted') {
-        return !todo.completed;
-      }
-      return true;
-    });
+  const columns = [
+    {
+      title: 'User ID',
+      dataIndex: 'userId',
+      key: 'userId',
+    },
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Completed',
+      dataIndex: 'completed',
+      key: 'completed',
+      render: (completed: boolean) => (completed ? 'Yes' : 'No'),
+    },
+  ];
 
-    const columns = [
-      {
-        title: 'User ID',
-        dataIndex: 'userId',
-        key: 'userId',
-      },
-      {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-      },
-      {
-        title: 'Title',
-        dataIndex: 'title',
-        key: 'title',
-      },
-      {
-        title: 'Completed',
-        dataIndex: 'completed',
-        key: 'completed',
-        render: (completed: boolean) => (completed ? 'Yes' : 'No'),
-      },
-    ];
+  return (
+    <div>
+      <Select defaultValue={pageSize} onChange={handleChangePageSize}>
+        <Option value={5}>5</Option>
+        <Option value={10}>10</Option>
+        <Option value={20}>20</Option>
+        <Option value={50}>50</Option>
+      </Select>
 
-    return (
-      <div>
-        <Select defaultValue="all" style={{ width: 120 }} onChange={this.handleFilterChange}>
-          <Option value="all">All</Option>
-          <Option value="completed">Completed</Option>
-          <Option value="uncompleted">Uncompleted</Option>
-        </Select>
-        <InfiniteScroll
-          dataLength={filteredDataSource.length}
-          next={this.fetchData}
-          hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
-          endMessage={<p>No more data</p>}
-        >
-          <Table dataSource={filteredDataSource} columns={columns} loading={loading} pagination={false} />
-        </InfiniteScroll>
-      </div>
-    );
-  }
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        loading={loading}
+        pagination={{
+          pageSize: pageSize,
+          total: 200,
+          onChange: handleChangePage,
+        }}
+      />
+    </div>
+  );
 }
 
 export default App;
