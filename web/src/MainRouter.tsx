@@ -4,12 +4,12 @@ import Home from './pages/home/home';
 import Tasks from './pages/tasks/Tasks';
 import About from './pages/about/About';
 import Contact from './pages/contact/contact';
-import Navbar from './navbar/Navbar';
+import StyledNav from './navbar/Navbar';
 
 const MainRouter: React.FC<{ isAuth: boolean, handleAuthentication: () => void }> = ({ isAuth, handleAuthentication }) => {
   return (
     <div>
-      <Navbar isAuth={isAuth} handleAuthentication={handleAuthentication} />
+      <StyledNav isAuth={isAuth} handleAuthentication={handleAuthentication} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tasks" element={<Tasks />} />

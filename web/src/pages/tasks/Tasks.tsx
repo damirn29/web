@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Select, Button } from 'antd';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const { Option } = Select;
 
@@ -10,6 +11,20 @@ interface Todo {
   title: string;
   completed: boolean;
 }
+
+const CustomTable = styled(Table)`
+  .ant-table-thead > tr > th {
+    background-color: #f0f0f0;
+  }
+
+  .ant-table-tbody > tr.ant-table-row {
+    background-color: #ffffff;
+  }
+
+  .ant-table-tbody > tr.ant-table-row.completed {
+    background-color: lightgreen;
+  }
+`;
 
 function App() {
   const [dataSource, setDataSource] = useState<Todo[]>([]);
@@ -81,11 +96,12 @@ function App() {
 
   return (
     <div>
-      <Table
+      <CustomTable
         dataSource={dataSource}
         columns={columns}
         loading={loading}
         pagination={false}
+        rowClassName={(record) => record.completed ? 'completed' : ''}
       />
 
       <Select defaultValue={pageSize} onChange={handleChangePageSize}>

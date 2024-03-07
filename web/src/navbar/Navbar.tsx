@@ -1,27 +1,76 @@
-// Navbar.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
+import * as colors from './colors';
 
 interface NavbarProps {
   isAuth: boolean;
   handleAuthentication: () => void;
 }
 
+const GlobalStyle = createGlobalStyle<{ isDarkTheme: boolean }>`
+  body {
+    background-color: ${({ isDarkTheme }) => (isDarkTheme ? colors.darkBackgroundColor : colors.lightBackgroundColor)};
+    color: ${({ isDarkTheme }) => (isDarkTheme ? colors.darkTextColor : colors.lightTextColor)};
+  }
+`;
+
+const StyledNav = styled.nav<{ isDarkTheme: boolean }>`
+  background-color: ${({ isDarkTheme }) => (isDarkTheme ? colors.darkBackgroundColor : colors.lightBackgroundColor)};
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledUl = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+`;
+
+const StyledLi = styled.li`
+  margin-right: 10px;
+`;
+
+const StyledButton = styled.button<{ isDarkTheme: boolean }>`
+  color: ${({ isDarkTheme }) => (isDarkTheme ? colors.darkButtonColor : colors.lightButtonColor)};
+  cursor: pointer;
+`;
+
+const StyledLink = styled(Link)<{ isDarkTheme: boolean }>`
+  color: ${({ isDarkTheme }) => (isDarkTheme ? colors.darkTextColor : colors.lightTextColor)};
+  text-decoration: none;
+`;
+
 const Navbar: React.FC<NavbarProps> = ({ isAuth, handleAuthentication }) => {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkTheme(prevTheme => !prevTheme);
+  };
+
   return (
-    <nav>
-      <ul>
-        <li>
-          <button onClick={handleAuthentication}>
-            {isAuth ? 'Выйти' : 'Войти'}
-          </button>
-        </li>
-        <li><Link to="/">Главная</Link></li>
-        <li><Link to="/tasks">Список задач</Link></li>
-        <li><Link to="/about">О нас</Link></li>
-        <li><Link to="/contact">Контакты</Link></li>
-      </ul>
-    </nav>
+    <>
+      <GlobalStyle isDarkTheme={isDarkTheme} />
+      <StyledNav isDarkTheme={isDarkTheme}>
+        <StyledUl>
+          <StyledLi><StyledLink to="/" isDarkTheme={isDarkTheme}>Главная</StyledLink></StyledLi>
+          <StyledLi><StyledLink to="/tasks" isDarkTheme={isDarkTheme}>Список задач</StyledLink></StyledLi>
+          <StyledLi><StyledLink to="/about" isDarkTheme={isDarkTheme}>О нас</StyledLink></StyledLi>
+          <StyledLi><StyledLink to="/contact" isDarkTheme={isDarkTheme}>Контакты</StyledLink></StyledLi>
+          <StyledLi>
+            <StyledButton onClick={handleAuthentication} isDarkTheme={isDarkTheme}>
+              {isAuth ? 'Выйти' : 'Войти'}
+            </StyledButton>
+          </StyledLi>
+          <StyledLi>
+            <StyledButton onClick={toggleTheme} isDarkTheme={isDarkTheme}>Сменить тему</StyledButton>
+          </StyledLi>
+        </StyledUl>
+      </StyledNav>
+    </>
   );
 };
 
