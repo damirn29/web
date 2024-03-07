@@ -12,6 +12,14 @@ interface Todo {
   completed: boolean;
 }
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+`;
+
 const CustomTable = styled(Table)`
   .ant-table-thead > tr > th {
     background-color: #f0f0f0;
@@ -104,17 +112,21 @@ function App() {
         rowClassName={(record) => record.completed ? 'completed' : ''}
       />
 
-      <Select defaultValue={pageSize} onChange={handleChangePageSize}>
-        <Option value={5}>5</Option>
-        <Option value={10}>10</Option>
-        <Option value={20}>20</Option>
-        <Option value={50}>50</Option>
-      </Select>
+      <Container>
+        <Select defaultValue={pageSize} onChange={handleChangePageSize} style={{ marginTop: '20px', marginBottom: '10px' }}>
+          <Option value={5}>5</Option>
+          <Option value={10}>10</Option>
+          <Option value={20}>20</Option>
+          <Option value={50}>50</Option>
+        </Select>
 
-      <Button disabled={currentPage === 1} onClick={handlePrevPage}>Назад</Button>
-      <span>Страница: {currentPage}</span>
-      <Button disabled={dataSource.length < pageSize} onClick={handleNextPage}>Вперёд</Button>
+        <Button disabled={currentPage === 1} onClick={handlePrevPage}>Назад</Button>
+        <span style={{ margin: '0 10px' }}>Страница: {currentPage}</span>
+        <Button disabled={dataSource.length < pageSize} onClick={handleNextPage}>Вперёд</Button>
+      </Container>
     </div>
+
+
   );
 }
 
