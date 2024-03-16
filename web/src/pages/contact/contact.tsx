@@ -1,12 +1,24 @@
 import React from 'react';
+import styled from 'styled-components';
+import { lightTextColor } from '../../navbar/colors';
+
+const StyledHeading = styled.h1`
+  color: ${lightTextColor};
+`;
+
+const StyledParagraph = styled.p`
+  color: ${lightTextColor};
+`;
 
 const Contact: React.FC = () => {
   return (
     <div>
-      <h1>Контакты</h1>
-      <p>Вы можете связаться с нами, используя следующие контактные данные.</p>
-      <p>Email: example@example.com</p>
-      <p>Телефон: +123456789</p>
+      <StyledHeading>Контакты</StyledHeading>
+      <StyledParagraph>
+        Вы можете связаться с нами, используя следующие контактные данные.
+      </StyledParagraph>
+      <StyledParagraph>Email: example@example.com</StyledParagraph>
+      <StyledParagraph>Телефон: +123456789</StyledParagraph>
     </div>
   );
 }

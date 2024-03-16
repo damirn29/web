@@ -5,6 +5,7 @@ import Tasks from './pages/tasks/Tasks';
 import About from './pages/about/About';
 import Contact from './pages/contact/contact';
 import StyledNav from './navbar/Navbar';
+import LoginForm from './pages/form/form';
 
 const MainRouter: React.FC<{ isAuth: boolean, handleAuthentication: () => void }> = ({ isAuth, handleAuthentication }) => {
   return (
@@ -15,7 +16,7 @@ const MainRouter: React.FC<{ isAuth: boolean, handleAuthentication: () => void }
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        {/* Добавьте другие маршруты здесь */}
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
     </div>
   );

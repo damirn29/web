@@ -61,9 +61,15 @@ const Navbar: React.FC<NavbarProps> = ({ isAuth, handleAuthentication }) => {
           <StyledLi><StyledLink to="/about" isDarkTheme={isDarkTheme}>О нас</StyledLink></StyledLi>
           <StyledLi><StyledLink to="/contact" isDarkTheme={isDarkTheme}>Контакты</StyledLink></StyledLi>
           <StyledLi>
-            <StyledButton onClick={handleAuthentication} isDarkTheme={isDarkTheme}>
-              {isAuth ? 'Выйти' : 'Войти'}
-            </StyledButton>
+            {isAuth ? (
+              <StyledLink to="/" onClick={handleAuthentication} isDarkTheme={isDarkTheme}>
+                Выйти
+              </StyledLink>
+            ) : (
+              <StyledLink to="/login" isDarkTheme={isDarkTheme}>
+                Войти
+              </StyledLink>
+            )}
           </StyledLi>
           <StyledLi>
             <StyledButton onClick={toggleTheme} isDarkTheme={isDarkTheme}>Сменить тему</StyledButton>
