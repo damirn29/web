@@ -15,7 +15,6 @@ const MainRouter: React.FC<{ isAuth: boolean, handleAuthentication: () => void }
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        {/* Добавьте другие маршруты здесь */}
       </Routes>
     </div>
   );
