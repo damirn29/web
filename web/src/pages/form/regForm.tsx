@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 type FormData = {
   username: string;
+  email: string;
   password: string;
 };
 
@@ -53,32 +53,20 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-const ListContainer = styled.ul`
-  list-style: none;
-  padding: 0;
-`;
-
-const ListItem = styled.li`
-  margin-bottom: 10px;
-`;
-
-const LoginForm: React.FC = () => {
-  const [formItems, setFormItems] = useState<FormData[]>([]);
+const Registration: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    setFormItems([...formItems, data]);
-    reset();
+    console.log(data);
   };
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <StyledTitle>Авторизация</StyledTitle>
+      <StyledTitle>Регистрация</StyledTitle>
       <FormGroup>
         <Label>Логин:</Label>
         <Input
@@ -94,6 +82,20 @@ const LoginForm: React.FC = () => {
         {errors.username && <ErrorMessage>{errors.username.message}</ErrorMessage>}
       </FormGroup>
       <FormGroup>
+        <Label>Email:</Label>
+        <Input
+          type="email"
+          {...register('email', {
+            required: 'Обязательное поле',
+            pattern: {
+              value: /^\S+@\S+$/i,
+              message: 'Некорректный email',
+            },
+          })}
+        />
+        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+      </FormGroup>
+      <FormGroup>
         <Label>Пароль:</Label>
         <Input
           type="password"
@@ -107,21 +109,9 @@ const LoginForm: React.FC = () => {
         />
         {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
       </FormGroup>
-      <SubmitButton type="submit">Войти</SubmitButton>
-
-      <div>
-        Нет аккаунта? <Link to="/registration">Зарегистрируйтесь</Link>
-      </div>
-
-      <ListContainer>
-        {formItems.map((item, index) => (
-          <ListItem key={index}>
-            <strong>Логин:</strong> {item.username}, <strong>Пароль:</strong> {item.password}
-          </ListItem>
-        ))}
-      </ListContainer>
+      <SubmitButton type="submit">Зарегистрироваться</SubmitButton>
     </FormContainer>
   );
 };
 
-export default LoginForm;
+export default Registration;
