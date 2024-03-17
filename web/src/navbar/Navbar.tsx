@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import * as colors from './colors';
@@ -37,6 +37,9 @@ const StyledLi = styled.li`
 const StyledButton = styled.button<{ isDarkTheme: boolean }>`
   color: ${({ isDarkTheme }) => (isDarkTheme ? colors.darkButtonColor : colors.lightButtonColor)};
   cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 0;
 `;
 
 const StyledLink = styled(Link)<{ isDarkTheme: boolean }>`
@@ -45,10 +48,14 @@ const StyledLink = styled(Link)<{ isDarkTheme: boolean }>`
 `;
 
 const Navbar: React.FC<NavbarProps> = ({ isAuth, handleAuthentication }) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
 
   const toggleTheme = () => {
     setIsDarkTheme(prevTheme => !prevTheme);
+  };
+
+  const handleLoginClick = () => {
+    handleAuthentication(); // Вызов функции авторизации
   };
 
   return (
@@ -61,9 +68,13 @@ const Navbar: React.FC<NavbarProps> = ({ isAuth, handleAuthentication }) => {
           <StyledLi><StyledLink to="/about" isDarkTheme={isDarkTheme}>О нас</StyledLink></StyledLi>
           <StyledLi><StyledLink to="/contact" isDarkTheme={isDarkTheme}>Контакты</StyledLink></StyledLi>
           <StyledLi>
-            <StyledButton onClick={handleAuthentication} isDarkTheme={isDarkTheme}>
-              {isAuth ? 'Выйти' : 'Войти'}
-            </StyledButton>
+            {isAuth ? (
+              <StyledButton onClick={handleLoginClick} isDarkTheme={isDarkTheme}>Выйти</StyledButton>
+            ) : (
+              <StyledLink to="/login" isDarkTheme={isDarkTheme}>
+                <StyledButton isDarkTheme={isDarkTheme}>Войти</StyledButton>
+              </StyledLink>
+            )}
           </StyledLi>
           <StyledLi>
             <StyledButton onClick={toggleTheme} isDarkTheme={isDarkTheme}>Сменить тему</StyledButton>
