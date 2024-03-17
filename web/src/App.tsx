@@ -18,17 +18,25 @@ function App() {
   const [pageSize, setPageSize] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [cachedData, setCachedData] = useState<{ [key: string]: Todo[] }>({});
 
   useEffect(() => {
     fetchData();
-  }, [pageSize, offset]);
+  }, [pageSize, offset, currentPage]);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await axios.get<Todo[]>(`https://jsonplaceholder.typicode.com/todos?_start=${offset}&_limit=${pageSize}`);
-      setDataSource(response.data);
-      setLoading(false);
+      const cacheKey = `${offset}_${pageSize}`;
+      if (cachedData[cacheKey]) {
+        setDataSource(cachedData[cacheKey]);
+        setLoading(false);
+      } else {
+        const response = await axios.get<Todo[]>(`https://jsonplaceholder.typicode.com/todos?_start=${offset}&_limit=${pageSize}`);
+        setDataSource(response.data);
+        setCachedData({ ...cachedData, [cacheKey]: response.data });
+        setLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
       setLoading(false);
@@ -42,8 +50,8 @@ function App() {
   };
 
   const handleChangePage = (page: number) => {
-    setOffset((page - 1) * pageSize);
     setCurrentPage(page);
+    setOffset((page - 1) * pageSize);
   };
 
   const handleNextPage = () => {
