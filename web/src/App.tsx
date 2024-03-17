@@ -18,11 +18,18 @@ function App() {
   const [pageSize, setPageSize] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [cachedData, setCachedData] = useState<{ [key: string]: Todo[] }>({});
+  const [cachedData, setCachedData] = useState<{ [key: string]: Todo[] }>(() => {
+    const data = localStorage.getItem('cachedData');
+    return data ? JSON.parse(data) : {};
+  });
 
   useEffect(() => {
     fetchData();
   }, [pageSize, offset, currentPage]);
+
+  useEffect(() => {
+    localStorage.setItem('cachedData', JSON.stringify(cachedData));
+  }, [cachedData]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -34,7 +41,7 @@ function App() {
       } else {
         const response = await axios.get<Todo[]>(`https://jsonplaceholder.typicode.com/todos?_start=${offset}&_limit=${pageSize}`);
         setDataSource(response.data);
-        setCachedData({ ...cachedData, [cacheKey]: response.data });
+        setCachedData(prevState => ({ ...prevState, [cacheKey]: response.data }));
         setLoading(false);
       }
     } catch (error) {
