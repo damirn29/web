@@ -8,6 +8,7 @@ import StyledNav from './navbar/Navbar';
 import LoginForm from './pages/form/form';
 import Registration from './pages/form/regForm';
 
+
 const MainRouter: React.FC<{ isAuth: boolean, handleAuthentication: () => void }> = ({ isAuth, handleAuthentication }) => {
   return (
     <div>
