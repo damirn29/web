@@ -7,7 +7,7 @@ import Contact from './pages/contact/contact';
 import StyledNav from './navbar/Navbar';
 import LoginForm from './pages/form/form';
 import Registration from './pages/form/regForm';
-
+import { SupportForm } from './pages/support/supportForm';
 
 const MainRouter: React.FC<{ isAuth: boolean, handleAuthentication: () => void }> = ({ isAuth, handleAuthentication }) => {
   return (
@@ -20,6 +20,7 @@ const MainRouter: React.FC<{ isAuth: boolean, handleAuthentication: () => void }
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/support" element={<SupportForm />} /> // Новый маршрут
       </Routes>
     </div>
   );
