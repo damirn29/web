@@ -6,11 +6,11 @@ describe('Contact', () => {
     it('renders contact information', () => {
         render(<Contact />);
 
-        // Проверка заголовка
+
         const heading = screen.getByText('Контакты');
         if (!heading) throw new Error('Heading not found');
 
-        // Проверка наличия текста с информацией о контактах
+
         const description = screen.getByText('Вы можете связаться с нами, используя следующие контактные данные.');
         if (!description) throw new Error('Description not found');
 
