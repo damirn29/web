@@ -9,12 +9,17 @@
     "preview": "vite preview",
     "prettify": "prettier --write './src/**/*.{js,json,jsx,ts,tsx,css}'",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint-staged": "^15.2.2"
+    "lint-staged": "^15.2.2",
+    "test": "vitest",
+    "test-coverage": "vitest --coverage",
+    "test-ui": "vitest --ui"
   },
   "dependencies": {
     "@react-pdf/renderer": "^3.4.4",
     "antd": "^5.14.0",
     "axios": "^1.6.8",
+    "axios-mock-adapter": "^1.22.0",
+    "intersection-observer": "^0.12.2",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,6 +33,9 @@
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/react-scroll": "^1.8.10",
@@ -35,6 +43,9 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^1.4.0",
+    "@vitest/ui": "^1.4.0",
+    "c8": "^9.1.0",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
@@ -45,8 +56,16 @@
     "eslint-plugin-react": "^7.34.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vitest": "^1.4.0"
+  },
+  "lint-staged": {
+    "./src/**/*.{js,json,jsx,ts,tsx,css}": [
+      "prettify",
+      "eslint --fix"
+    ]
   }
 }
