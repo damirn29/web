@@ -39,7 +39,7 @@ const StyledButton = styled.button<{ isDarkTheme: boolean }>`
   cursor: pointer;
 `;
 
-const StyledLink = styled(Link)<{ isDarkTheme: boolean }>`
+const StyledLink = styled(Link) <{ isDarkTheme: boolean }>`
   color: ${({ isDarkTheme }) => (isDarkTheme ? colors.darkTextColor : colors.lightTextColor)};
   text-decoration: none;
 `;
