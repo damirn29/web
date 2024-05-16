@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Document, Page, Text, View, StyleSheet, Image, PDFDownloadLink, BlobProvider } from '@react-pdf/renderer';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Document, Page, Text, View, StyleSheet, Image, PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
     page: {
-        flexDirection: 'row',
-        backgroundColor: '#E4E4E4'
+        flexDirection: "row",
+        backgroundColor: "#E4E4E4",
     },
     section: {
         margin: 10,
         padding: 10,
-        flexGrow: 1
-    }
+        flexGrow: 1,
+    },
 });
 
 interface MyDocumentProps {
@@ -28,9 +28,7 @@ const MyDocument = ({ name, picture }: MyDocumentProps) => (
             <View style={styles.section}>
                 <Text>{name}</Text>
             </View>
-            <View style={styles.section}>
-                {picture && <Image src={picture} />}
-            </View>
+            <View style={styles.section}>{picture && <Image src={picture} />}</View>
         </Page>
     </Document>
 );
@@ -62,26 +60,31 @@ export const SupportForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(saveElement)}>
-                <input {...register('name', { required: "This field is required", minLength: 5 })} />
+                <input {...register("name", { required: "This field is required", minLength: 5 })} />
                 <input type="file" accept="image/*" {...register("picture", { required: true })} />
                 <div>{errors.name?.message}</div>
                 <button type="submit">Submit</button>
             </form>
             {task && (
                 <>
-                <PDFDownloadLink
-                    document={<MyDocument name={task.name} picture={task.picture} />}
-                    fileName="support-request.pdf">
-                    {({ loading }) => (loading ? 'Loading document...' : 'Download PDF')}
-                </PDFDownloadLink>
-                <BlobProvider document={<MyDocument name={task.name} picture={task.picture} />}>
-                    {({ url, loading, error }) => {
-                        if (error) {
-                            return <div>An error occurred while generating the PDF preview</div>;
-                        }
-                        return loading ? <div>Loading preview...</div> : <iframe src={url || undefined} style={{ width: '100%', height: '500px' }} />;
-                    }}
-                </BlobProvider>
+                    <PDFDownloadLink
+                        document={<MyDocument name={task.name} picture={task.picture} />}
+                        fileName="support-request.pdf"
+                    >
+                        {({ loading }) => (loading ? "Loading document..." : "Download PDF")}
+                    </PDFDownloadLink>
+                    <BlobProvider document={<MyDocument name={task.name} picture={task.picture} />}>
+                        {({ url, loading, error }) => {
+                            if (error) {
+                                return <div>An error occurred while generating the PDF preview</div>;
+                            }
+                            return loading ? (
+                                <div>Loading preview...</div>
+                            ) : (
+                                <iframe src={url || undefined} style={{ width: "100%", height: "500px" }} />
+                            );
+                        }}
+                    </BlobProvider>
                 </>
             )}
         </div>
