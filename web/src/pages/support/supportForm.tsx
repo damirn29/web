@@ -69,19 +69,19 @@ export const SupportForm = () => {
             </form>
             {task && (
                 <>
-                <PDFDownloadLink
-                    document={<MyDocument name={task.name} picture={task.picture} />}
-                    fileName="support-request.pdf">
-                    {({ loading }) => (loading ? 'Loading document...' : 'Download PDF')}
-                </PDFDownloadLink>
-                <BlobProvider document={<MyDocument name={task.name} picture={task.picture} />}>
-                    {({ url, loading, error }) => {
-                        if (error) {
-                            return <div>An error occurred while generating the PDF preview</div>;
-                        }
-                        return loading ? <div>Loading preview...</div> : <iframe src={url || undefined} style={{ width: '100%', height: '500px' }} />;
-                    }}
-                </BlobProvider>
+                    <PDFDownloadLink
+                        document={<MyDocument name={task.name} picture={task.picture} />}
+                        fileName="support-request.pdf">
+                        {({ loading }) => (loading ? 'Loading document...' : 'Download PDF')}
+                    </PDFDownloadLink>
+                    <BlobProvider document={<MyDocument name={task.name} picture={task.picture} />}>
+                        {({ url, loading, error }) => {
+                            if (error) {
+                                return <div>An error occurred while generating the PDF preview</div>;
+                            }
+                            return loading ? <div>Loading preview...</div> : <iframe src={url || undefined} style={{ width: '100%', height: '500px' }} />;
+                        }}
+                    </BlobProvider>
                 </>
             )}
         </div>
