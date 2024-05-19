@@ -28,6 +28,7 @@ module.exports = {
   },
   "plugins": [
     "react",
+    'react-perf'
   ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -37,6 +38,9 @@ module.exports = {
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/consistent-type-imports": "off",
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+    'react-perf/jsx-no-new-object-as-prop': 'warn',
+    'react-perf/jsx-no-new-function-as-prop': 'warn',
+    'react-perf/jsx-no-jsx-as-prop': 'warn'
   },
 };
