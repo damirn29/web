@@ -1,66 +1,30 @@
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import styled from "styled-components";
+import React from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import {
+  FormContainer,
+  StyledTitle,
+  FormGroup,
+  Label,
+  Input,
+  ErrorMessage,
+  SubmitButton
+} from './RegistrationStyles';
 
-type FormData = {
+
+interface IFormData {
   username: string;
   email: string;
   password: string;
-};
-
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  margin: 0 auto;
-  margin-top: 5%;
-  border: solid 1px;
-  border-radius: 30px;
-  padding: 50px;
-  background-color: #f8f9fa;
-`;
-
-const StyledTitle = styled.h2`
-  text-align: center;
-  margin-bottom: 30px;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 20px;
-  border-color: #afdaff;
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
-`;
-
-const SubmitButton = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-`;
+}
 
 const Registration: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<IFormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<IFormData> = (data) => {
     console.log(data);
   };
 

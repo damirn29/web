@@ -1,7 +1,13 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import styled, { createGlobalStyle } from "styled-components";
-import * as colors from "./colors";
+import React, { useState } from 'react';
+import {
+  GlobalStyle,
+  StyledNav,
+  StyledUl,
+  StyledLi,
+  StyledButton,
+  StyledLink
+} from './NavbarStyles';
+
 
 interface NavbarProps {
   isAuth: boolean;
