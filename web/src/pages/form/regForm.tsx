@@ -10,6 +10,7 @@ import {
   SubmitButton
 } from './RegistrationStyles';
 
+
 interface IFormData {
   username: string;
   email: string;
@@ -34,11 +35,11 @@ const Registration: React.FC = () => {
         <Label>Логин:</Label>
         <Input
           type="text"
-          {...register('username', {
-            required: 'Обязательное поле',
+          {...register("username", {
+            required: "Обязательное поле",
             minLength: {
               value: 3,
-              message: 'Длина больше 3 символов',
+              message: "Длина больше 3 символов",
             },
           })}
         />
@@ -48,11 +49,11 @@ const Registration: React.FC = () => {
         <Label>Email:</Label>
         <Input
           type="email"
-          {...register('email', {
-            required: 'Обязательное поле',
+          {...register("email", {
+            required: "Обязательное поле",
             pattern: {
               value: /^\S+@\S+$/i,
-              message: 'Некорректный email',
+              message: "Некорректный email",
             },
           })}
         />
@@ -62,11 +63,11 @@ const Registration: React.FC = () => {
         <Label>Пароль:</Label>
         <Input
           type="password"
-          {...register('password', {
-            required: 'Обязательное поле',
+          {...register("password", {
+            required: "Обязательное поле",
             minLength: {
               value: 6,
-              message: 'Длина пароля больше 6 символов',
+              message: "Длина пароля больше 6 символов",
             },
           })}
         />
