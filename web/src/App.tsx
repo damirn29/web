@@ -17,5 +17,5 @@ function App() {
     </div>
   );
 }
-
+App.whyDidYouRender = true;
 export default App;

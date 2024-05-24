@@ -125,9 +125,8 @@ function App() {
         <Button disabled={dataSource.length < pageSize} onClick={handleNextPage}>Вперёд</Button>
       </Container>
     </div>
-
-
   );
 }
 
+App.whyDidYouRender = true;
 export default App;

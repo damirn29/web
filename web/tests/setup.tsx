@@ -19,3 +19,20 @@ export * from "@testing-library/react";
 export { default as userEvent } from "@testing-library/user-event";
 // override render export
 export { customRender as render };
+
+import '@testing-library/jest-dom';
+
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: () => { },
+        removeListener: () => { },
+        addEventListener: () => { },
+        removeEventListener: () => { },
+        dispatchEvent: () => false,
+    }),
+});
